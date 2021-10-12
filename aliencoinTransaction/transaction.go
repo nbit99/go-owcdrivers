@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {
@@ -40,7 +40,7 @@ func SignTransaction(hash string, prikey []byte) ([]byte, error) {
 		return nil, errors.New("Invalid hash!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if retCode != owcrypt.SUCCESS {
 		return nil, errors.New("Sign Failed!")
 	}

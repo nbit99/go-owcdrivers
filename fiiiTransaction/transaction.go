@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {
@@ -78,7 +78,7 @@ func SignTransactionMessage(message string, prikey []byte) ([]byte, error) {
 	if err != nil {
 		return nil, errors.New("Invalid message to sign!")
 	}
-	signature,_, retCode := owcrypt.Signature(prikey, nil, data, owcrypt.ECC_CURVE_ED25519)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, data, owcrypt.ECC_CURVE_ED25519)
 
 	if retCode != owcrypt.SUCCESS {
 		return nil, errors.New("Failed to sign message!")

@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {
@@ -13,7 +13,7 @@ type Vin struct {
 
 type Vout struct {
 	Address string
-	Amount uint64
+	Amount  uint64
 }
 
 type Vouts []Vout
@@ -29,7 +29,6 @@ func CreateEmptyTransactionAndHash(in Vin, outs Vouts) (string, string, error) {
 
 	hash := owcrypt.Hash(txBytes, 0, owcrypt.HASH_ALG_SHA256)
 
-
 	return hex.EncodeToString(txBytes), hex.EncodeToString(hash), nil
 }
 
@@ -43,7 +42,7 @@ func SignTransaction(hash string, prikey []byte) (string, error) {
 		return "", errors.New("Invalid hash data!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if retCode != owcrypt.SUCCESS {
 		return "", errors.New("Failed to sign transaction!")
 	}
@@ -51,7 +50,7 @@ func SignTransaction(hash string, prikey []byte) (string, error) {
 	return hex.EncodeToString(signature), nil
 }
 
-func VerifyAndCombineTransaction(emptyTrans, signature, pubkey  string) (string, bool) {
+func VerifyAndCombineTransaction(emptyTrans, signature, pubkey string) (string, bool) {
 
 	tx, err := decodeRawTransaction(emptyTrans, signature)
 	if err != nil {

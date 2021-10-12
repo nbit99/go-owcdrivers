@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 // Errors
@@ -189,7 +189,7 @@ func GetProgramHashFromAddress(address string) ([]byte, error) {
 		}
 	}
 
-	if ret[0] != AddressPrefix && ret[0] != AddressPrefixTestNet{
+	if ret[0] != AddressPrefix && ret[0] != AddressPrefixTestNet {
 		return nil, errors.New("Invalid address!")
 	}
 

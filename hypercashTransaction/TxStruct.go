@@ -2,18 +2,18 @@ package hypercashTransaction
 
 import (
 	"encoding/hex"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 	"github.com/pkg/errors"
 	"strings"
 )
 
 type TxStruct struct {
-	TxVersion  []byte
-	SerType    []byte
-	TxIns      []*TxIn
-	TxOuts     []*TxOut
-	LockTime   []byte
-	Expiry     []byte
+	TxVersion []byte
+	SerType   []byte
+	TxIns     []*TxIn
+	TxOuts    []*TxOut
+	LockTime  []byte
+	Expiry    []byte
 }
 
 func NewTxStruct(ins []Vin, outs []Vout, locktime, expiry uint32) (*TxStruct, error) {
@@ -39,7 +39,7 @@ func NewTxStruct(ins []Vin, outs []Vout, locktime, expiry uint32) (*TxStruct, er
 	}
 
 	for _, out := range outs {
-		output,err := out.NewTxOut()
+		output, err := out.NewTxOut()
 		if err != nil {
 			return nil, err
 		}
@@ -57,7 +57,7 @@ func (tx *TxStruct) ToBytes(index uint64, serType uint16) ([]byte, error) {
 	ret := make([]byte, 0)
 	tx.SerType = uint16ToLittleEndianBytes(serType)
 
-	if serType == TxSerializeNoWitness || serType == TxSerializeFull{
+	if serType == TxSerializeNoWitness || serType == TxSerializeFull {
 		ret = append(ret, tx.TxVersion...)
 		ret = append(ret, tx.SerType...)
 		ret = append(ret, varIntToBytes(uint64(len(tx.TxIns)))...)
@@ -78,7 +78,7 @@ func (tx *TxStruct) ToBytes(index uint64, serType uint16) ([]byte, error) {
 		}
 
 		ret = append(ret, varIntToBytes(uint64(len(tx.TxIns)))...)
-		for i := uint64(0); i < uint64(len(tx.TxIns)); i ++ {
+		for i := uint64(0); i < uint64(len(tx.TxIns)); i++ {
 			if i == index {
 				ret = append(ret, tx.TxIns[i].LockScript...)
 			} else {
@@ -126,35 +126,35 @@ func GetVinList(emptyTrans string) ([]Vin, error) {
 
 	index := 0
 
-	if index + 4 > limit {
+	if index+4 > limit {
 		return nil, errors.New("Invalid transaction hex!")
 	}
 	index += 4
 
-	if index + 1 > limit {
+	if index+1 > limit {
 		return nil, errors.New("Invalid transaction hex!")
 	}
 	count := int(tx[index])
-	index ++
-	if count <= 0 || count != len(trans) - 1{
+	index++
+	if count <= 0 || count != len(trans)-1 {
 		return nil, errors.New("Invalid transaction hex!")
 	}
 	ret := make([]Vin, 0)
-	for i := 0; i < count; i ++ {
-		if index + 32 > limit {
+	for i := 0; i < count; i++ {
+		if index+32 > limit {
 			return nil, errors.New("Invalid transaction hex!")
 		}
-		txid := reverseBytesToHex(tx[index:index+32])
+		txid := reverseBytesToHex(tx[index : index+32])
 		index += 32
-		if index + 9 > limit {
+		if index+9 > limit {
 			return nil, errors.New("Invalid transaction hex!")
 		}
-		vout := littleEndianBytesToUint32(tx[index:index+4])
+		vout := littleEndianBytesToUint32(tx[index : index+4])
 		index += 9
 
 		ret = append(ret, Vin{
-			TxID:txid,
-			Vout:vout,
+			TxID: txid,
+			Vout: vout,
 		})
 	}
 

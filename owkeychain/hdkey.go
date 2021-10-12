@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 var (

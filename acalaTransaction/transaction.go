@@ -6,9 +6,9 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"github.com/blocktree/go-owcdrivers/acalaTransaction/scale"
-	"github.com/blocktree/go-owcdrivers/polkadotTransaction"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcdrivers/acalaTransaction/scale"
+	"github.com/nbit99/go-owcdrivers/polkadotTransaction"
+	"github.com/nbit99/go-owcrypt"
 	"math/big"
 )
 
@@ -31,7 +31,7 @@ func (tx TxStruct) NewTxPayLoad(transfer_code string) (*polkadotTransaction.TxPa
 
 	tp.Method, err = method.ToBytes(transfer_code)
 	if err != nil {
-		return  nil, err
+		return nil, err
 	}
 
 	if tx.BlockHeight == 0 {
@@ -47,7 +47,7 @@ func (tx TxStruct) NewTxPayLoad(transfer_code string) (*polkadotTransaction.TxPa
 		tp.Nonce, _ = hex.DecodeString(nonce)
 	}
 
-	if tx.Fee.Cmp(big.NewInt(0)) < 0{
+	if tx.Fee.Cmp(big.NewInt(0)) < 0 {
 		//return nil, errors.New("a none zero fee must be payed")
 		tp.Fee = []byte{0}
 	} else {
@@ -101,7 +101,7 @@ func NewTxStructFromJSON(j string) (*TxStruct, error) {
 	return &ts, nil
 }
 
-func (ts TxStruct) GetSignedTransaction (transfer_code, signature string) (string, error) {
+func (ts TxStruct) GetSignedTransaction(transfer_code, signature string) (string, error) {
 
 	signed := make([]byte, 0)
 
@@ -137,7 +137,7 @@ func (ts TxStruct) GetSignedTransaction (transfer_code, signature string) (strin
 	if ts.Nonce == 0 {
 		signed = append(signed, 0)
 	} else {
-		nonce:= polkadotTransaction.Encode( uint64(ts.Nonce))
+		nonce := polkadotTransaction.Encode(uint64(ts.Nonce))
 
 		nonceBytes, _ := hex.DecodeString(nonce)
 		signed = append(signed, nonceBytes...)
@@ -172,11 +172,11 @@ func (ts TxStruct) GetSignedTransaction (transfer_code, signature string) (strin
 
 func NewMethodTransfer(pubkey string, amount *big.Int) (*polkadotTransaction.MethodTransfer, error) {
 	pubBytes, err := hex.DecodeString(pubkey)
-	if  err != nil || len(pubBytes) != 32 {
+	if err != nil || len(pubBytes) != 32 {
 		return nil, errors.New("invalid dest public key")
 	}
 
-	if amount.Cmp(big.NewInt(0)) <= 0{
+	if amount.Cmp(big.NewInt(0)) <= 0 {
 		return nil, errors.New("zero amount")
 	}
 
@@ -215,7 +215,7 @@ func VerifyAndCombineTransaction(transferCode, emptyTrans, signature string) (st
 	pubkey, _ := hex.DecodeString(ts.SenderPubkey)
 
 	sig, err := hex.DecodeString(signature)
-	if err != nil || len(sig) != 64{
+	if err != nil || len(sig) != 64 {
 		return "", false
 	}
 

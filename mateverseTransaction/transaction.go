@@ -3,10 +3,10 @@ package mateverseTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
-func GetInputsFromEmptyRawTransaction(emptyTrans string) ([]*TxInput, error){
+func GetInputsFromEmptyRawTransaction(emptyTrans string) ([]*TxInput, error) {
 	trans, err := hex.DecodeString(emptyTrans)
 	if err != nil {
 		return nil, errors.New("Invalid empty raw transaction!")
@@ -63,7 +63,7 @@ func SignTransaction(hash string, prikey []byte) (string, error) {
 		return "", errors.New("Invalid prikey!")
 	}
 
-	signature,_, reCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, reCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if reCode != owcrypt.SUCCESS {
 		return "", errors.New("Failed to sign transaction!")
 	}

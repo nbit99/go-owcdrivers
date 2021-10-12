@@ -1,10 +1,10 @@
 package hypercashTransaction
 
 import (
-"errors"
-"fmt"
+	"errors"
+	"fmt"
 
-"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 // Errors

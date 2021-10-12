@@ -6,22 +6,22 @@ import (
 	"errors"
 	"github.com/binance-chain/go-sdk/types/msg"
 	"github.com/binance-chain/go-sdk/types/tx"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
-func CreateEmptyTransactionAndHash(from , to, denom string, amount, accountNumber, sequence, source int64, memo string) (string, string, error) {
+func CreateEmptyTransactionAndHash(from, to, denom string, amount, accountNumber, sequence, source int64, memo string) (string, string, error) {
 	sendMsg, err := CreateSendMsg(from, to, denom, amount)
 	if err != nil {
 		return "", "", err
 	}
 
 	signMsg := tx.StdSignMsg{
-		ChainID:ChainID,
-		AccountNumber:accountNumber,
-		Sequence:sequence,
-		Memo:memo,
-		Msgs:[]msg.Msg{sendMsg},
-		Source:source,
+		ChainID:       ChainID,
+		AccountNumber: accountNumber,
+		Sequence:      sequence,
+		Memo:          memo,
+		Msgs:          []msg.Msg{sendMsg},
+		Source:        source,
 	}
 
 	emptyTrans := signMsg.Bytes()
@@ -36,7 +36,7 @@ func SignRawTransaction(hash string, prikey []byte) ([]byte, error) {
 		return nil, errors.New("Invalid tansaction hash!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if retCode != owcrypt.SUCCESS {
 		return nil, errors.New("Sign transaction failed!")
 	}
@@ -80,7 +80,7 @@ func VerifyAndCombineRawTransaction(emptyTrans, signature, pubkey string) (bool,
 
 	pubBytes, err := hex.DecodeString(pubkey)
 	if err != nil || len(pubBytes) != 33 {
-		 return false, ""
+		return false, ""
 	}
 
 	pubUncompressedBytes := owcrypt.PointDecompress(pubBytes, owcrypt.ECC_CURVE_SECP256K1)[1:]
@@ -93,10 +93,10 @@ func VerifyAndCombineRawTransaction(emptyTrans, signature, pubkey string) (bool,
 	}
 
 	stdSignature := tx.StdSignature{
-		AccountNumber:signMsg.AccountNumber,
-		Sequence:signMsg.Sequence,
-		PubKey:NewPubkey(pubBytes),
-		Signature:sigBytes,
+		AccountNumber: signMsg.AccountNumber,
+		Sequence:      signMsg.Sequence,
+		PubKey:        NewPubkey(pubBytes),
+		Signature:     sigBytes,
 	}
 
 	newTx := tx.NewStdTx(signMsg.Msgs, []tx.StdSignature{stdSignature}, signMsg.Memo, signMsg.Source, signMsg.Data)

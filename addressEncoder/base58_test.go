@@ -3,7 +3,7 @@ package addressEncoder
 import (
 	"encoding/hex"
 	"fmt"
-	"github.com/blocktree/go-owcdrivers/addressEncoder/bech32"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/bech32"
 	"testing"
 )
 
@@ -18,9 +18,8 @@ func TestBase58Decode(t *testing.T) {
 
 }
 
-
 func TestBech32(t *testing.T) {
-	hash,_ := hex.DecodeString("09ca6d8f32d802edd899a894172c6ea966a612c9")
+	hash, _ := hex.DecodeString("09ca6d8f32d802edd899a894172c6ea966a612c9")
 	prefix := "bnb"
 
 	addr := bech32.Encode(prefix, BTCBech32Alphabet, hash, nil)

@@ -2,7 +2,7 @@ package mateverseTransaction
 
 import (
 	"encoding/hex"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type SignaturePubkey struct {
@@ -51,10 +51,9 @@ func (sp SignaturePubkey) encodeSignatureToScript(sigType byte) []byte {
 }
 func (sp SignaturePubkey) encodeToScript(sigType byte) []byte {
 
-	ret :=  append(sp.encodeSignatureToScript(sigType), append([]byte{byte(len(sp.Pubkey))}, sp.Pubkey...)...)
+	ret := append(sp.encodeSignatureToScript(sigType), append([]byte{byte(len(sp.Pubkey))}, sp.Pubkey...)...)
 	return append([]byte{byte(len(ret))}, ret...)
 }
-
 
 func verifyTransactionHash(pubkey, hash, signature string) bool {
 	pubBytes, err := hex.DecodeString(pubkey)

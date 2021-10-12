@@ -3,7 +3,7 @@
 
 ##  说明
 ---
-本包为依赖[go-owcrypt](https://github.com/blocktree/go-owcrypt)实现的一些基础功能以及若干币种的交易驱动和一些需要特殊处理的币种签名。
+本包为依赖[go-owcrypt](https://github.com/nbit99/go-owcrypt)实现的一些基础功能以及若干币种的交易驱动和一些需要特殊处理的币种签名。
         
 
 ## 当前功能列表：

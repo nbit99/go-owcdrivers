@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 var DefaultTxVersion = []byte{0x01, 0x00, 0x00, 0x00}

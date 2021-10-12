@@ -3,9 +3,9 @@ package bitcoincashTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcdrivers/addressEncoder"
+	"github.com/nbit99/go-owcdrivers/addressEncoder"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type NormalTx struct {
@@ -53,7 +53,6 @@ func (tx TxHash) GetMultiTxPubkeys() []string {
 func newTxHash(hash, lockscript, redeem []byte, inType, sigType byte, addressPrefix AddressPrefix) (*TxHash, error) {
 
 	var p2wpkhPrefixByte []byte
-
 
 	p2wpkhPrefixByte = addressPrefix.P2WPKHPrefix
 

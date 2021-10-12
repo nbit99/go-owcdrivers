@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"math/big"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 func int2octets(v *big.Int, rolen int) []byte {

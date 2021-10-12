@@ -6,7 +6,7 @@ import (
 	"errors"
 	"math/big"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 	"github.com/tidwall/gjson"
 )
 
@@ -55,7 +55,7 @@ func SignTransactionHash(txHash string, prikey []byte) (string, error) {
 		return "", errors.New("Invalid transaction hash!")
 	}
 
-	sig,_, ret := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_SECP256K1)
+	sig, _, ret := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_SECP256K1)
 	sig = serilizeS(sig)
 
 	if ret != owcrypt.SUCCESS {

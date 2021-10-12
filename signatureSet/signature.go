@@ -2,7 +2,7 @@ package signatureSet
 
 import (
 	"fmt"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 	"math/big"
 	"strings"
 )

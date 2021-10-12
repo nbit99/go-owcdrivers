@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type CommonTx struct {

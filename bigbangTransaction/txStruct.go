@@ -2,10 +2,10 @@ package bigbangTransaction
 
 import (
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
-type TxStruct struct{
+type TxStruct struct {
 	Version   []byte
 	Type      []byte
 	Time      []byte

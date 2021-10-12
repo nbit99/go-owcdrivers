@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 var DefaultTxVersion = []byte{0x01, 0x00, 0x00, 0x00}

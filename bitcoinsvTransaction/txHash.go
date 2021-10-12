@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type NormalTx struct {
@@ -53,7 +53,6 @@ func newTxHash(hash, lockscript, redeem []byte, inType, sigType byte, addressPre
 
 	var p2pkhPrefixByte []byte
 	var p2wpkhPrefixByte []byte
-
 
 	p2pkhPrefixByte = addressPrefix.P2PKHPrefix
 	p2wpkhPrefixByte = addressPrefix.P2WPKHPrefix

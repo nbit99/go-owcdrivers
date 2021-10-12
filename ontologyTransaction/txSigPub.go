@@ -4,7 +4,7 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type SigPub struct {
@@ -36,7 +36,7 @@ func calcSignaturePubkey(txHash, prikey []byte) (*SigPub, error) {
 		return nil, errors.New("Transaction hash or private key data error!")
 	}
 
-	sig,_, err := owcrypt.Signature(prikey, nil, txHash, owcrypt.ECC_CURVE_SECP256R1)
+	sig, _, err := owcrypt.Signature(prikey, nil, txHash, owcrypt.ECC_CURVE_SECP256R1)
 	if err != owcrypt.SUCCESS {
 		return nil, errors.New("Signature failed!")
 	}

@@ -3,7 +3,7 @@ package zencashTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {

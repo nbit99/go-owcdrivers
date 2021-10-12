@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {
@@ -41,7 +41,7 @@ func CreateEmptyRawTransaction(vins []Vin, vouts []Vout, lockTime uint32, replac
 	return hex.EncodeToString(txBytes), nil
 }
 
-func CreateEmptyOmniRawTransaction(vins []Vin, vouts []Vout, omniDetail OmniStruct, lockTime uint32, replaceable bool, addressPrefix AddressPrefix)  (string, error) {
+func CreateEmptyOmniRawTransaction(vins []Vin, vouts []Vout, omniDetail OmniStruct, lockTime uint32, replaceable bool, addressPrefix AddressPrefix) (string, error) {
 	emptyTrans, err := newOmniEmptyTransaction(vins, vouts, omniDetail, lockTime, replaceable, addressPrefix)
 	if err != nil {
 		return "", err

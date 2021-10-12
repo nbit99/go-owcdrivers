@@ -3,7 +3,7 @@ package eosSignature
 import (
 	"errors"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 func signRFC6979(privateKey, hash []byte, nonce int) ([]byte, error) {

@@ -1,4 +1,4 @@
-module github.com/blocktree/go-owcdrivers
+module github.com/nbit99/go-owcdrivers
 
 go 1.12
 
@@ -12,7 +12,7 @@ require (
 	github.com/blocktree/eosio-adapter v1.0.0
 	github.com/blocktree/ethereum-adapter v1.1.10
 	github.com/blocktree/futurepia-adapter v1.0.12
-	github.com/blocktree/go-owcrypt v1.1.9
+	github.com/blocktree/go-owcrypt v1.0.3
 	github.com/blocktree/moacchain-adapter v1.0.3
 	github.com/blocktree/nulsio-adapter v1.1.7
 	github.com/blocktree/ontology-adapter v1.0.8
@@ -24,9 +24,10 @@ require (
 	github.com/codahale/blake2 v0.0.0-20150924215134-8d10d0420cbf
 	github.com/golang/protobuf v1.3.1
 	github.com/google/gofuzz v1.0.0 // indirect
+	github.com/nbit99/go-owcrypt v1.0.2
 	github.com/pkg/errors v0.8.1
 	github.com/tendermint/tendermint v0.31.2-rc0
 	github.com/tidwall/gjson v1.2.1
 )
 
-//replace github.com/blocktree/go-owcrypt => /Users/heshuchao/workspace/go-workspace/go-owcrypt
+//replace github.com/nbit99/go-owcrypt => /Users/heshuchao/workspace/go-workspace/go-owcrypt

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 const (
@@ -80,7 +80,11 @@ func getI(data, key []byte, serializes, typeChoose uint32) []byte {
 	hmac512.Write(data)
 	hmac512.Write(tmp[:])
 	hm := hmac512.Sum(nil)
-	if typeChoose == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_AUG || typeChoose == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_NUL {for hm[0] >= curveoeder_bls12_381[0] { hm[0] -- }}
+	if typeChoose == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_AUG || typeChoose == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_NUL {
+		for hm[0] >= curveoeder_bls12_381[0] {
+			hm[0]--
+		}
+	}
 
 	return hm
 }
@@ -280,7 +284,9 @@ func InitRootKeyFromSeed(seed []byte, curveType uint32) (*ExtendedKey, error) {
 		i[31] |= 64
 	}
 	if curveType == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_AUG || curveType == owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_NUL {
-		for i[0] >= curveoeder_bls12_381[0] { i[0] -- }
+		for i[0] >= curveoeder_bls12_381[0] {
+			i[0]--
+		}
 	}
 	rootParentFP := [4]byte{0, 0, 0, 0}
 	return NewExtendedKey(i[:32], i[32:], rootParentFP[:], 0, 0, true, curveType), nil

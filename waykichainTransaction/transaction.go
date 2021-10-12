@@ -4,7 +4,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 // fromUserID - user id when txType is TxType_COMMON
@@ -34,7 +34,7 @@ func CreateEmptyRawTransactionAndHash(fromUserID, to, appID string, amount, fee,
 
 		return hex.EncodeToString(txContract.ToBytes()), hex.EncodeToString(txContract.GetHash()), nil
 	} else if txType == TxType_UcoinTransfer {
-		txUcoinTransfer, err := NewUcoinTransferTx(fromUserID, to, appID,validHeight, fee, amount)
+		txUcoinTransfer, err := NewUcoinTransferTx(fromUserID, to, appID, validHeight, fee, amount)
 		if err != nil {
 			return "", "", err
 		}
@@ -50,7 +50,7 @@ func SignRawTransaction(hash string, prikey []byte) ([]byte, error) {
 		return nil, errors.New("Invalid transaction hash string!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if retCode != owcrypt.SUCCESS {
 		return nil, errors.New("Failed to sign transaction hash!")
 	}

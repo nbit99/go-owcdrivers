@@ -3,7 +3,7 @@ package bytomTransaction
 import (
 	"errors"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type SigPub struct {
@@ -36,7 +36,7 @@ func calcSignaturePubkey(hash, prikey []byte) (*SigPub, error) {
 		return nil, errors.New("Miss transaction hash or prikey data!")
 	}
 
-	sig,_, err := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_ED25519)
+	sig, _, err := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_ED25519)
 
 	if err != owcrypt.SUCCESS {
 		return nil, errors.New("sign error!")

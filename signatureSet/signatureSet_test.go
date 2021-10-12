@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 func Test_ethSignature(t *testing.T) {

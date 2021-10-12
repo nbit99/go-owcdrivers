@@ -3,7 +3,7 @@ package bigbangTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 	"time"
 )
 
@@ -33,7 +33,7 @@ func SignTransactionHash(hash string, prikey []byte) (string, error) {
 		return "", errors.New("Invalid prikey data!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_ED25519)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_ED25519)
 
 	if retCode != owcrypt.SUCCESS {
 		return "", errors.New("Transaction sign failed")

@@ -1,7 +1,7 @@
 package signatureSet
 
 import (
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 func VSYSSignature(prikey, msg []byte) ([]byte, uint16) {

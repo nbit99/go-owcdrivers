@@ -3,7 +3,7 @@ package cxcTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 type Vin struct {
@@ -27,8 +27,8 @@ type TxUnlock struct {
 
 type AssetTransfer struct {
 	FirstSellTxID string
-	Address string
-	Amount uint64
+	Address       string
+	Amount        uint64
 }
 
 func CreateEmptyRawTransaction(vins []Vin, vouts []Vout, lockTime uint32, replaceable bool, addressPrefix AddressPrefix) (string, error) {

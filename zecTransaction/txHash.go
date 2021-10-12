@@ -3,7 +3,7 @@ package zecTransaction
 import (
 	"encoding/hex"
 	"errors"
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 type NormalTx struct {

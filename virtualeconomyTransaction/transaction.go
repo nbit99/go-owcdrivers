@@ -7,7 +7,7 @@ import (
 	"errors"
 	"time"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 	"github.com/tidwall/gjson"
 )
 
@@ -62,7 +62,7 @@ func SignTransaction(emptyTrans string, prikey []byte) (*SignaturePubkey, error)
 		return nil, errors.New("Invalid empty transaction hex!")
 	}
 
-	sig,_, ret := owcrypt.Signature(prikey, nil, txBytes, owcrypt.ECC_CURVE_X25519)
+	sig, _, ret := owcrypt.Signature(prikey, nil, txBytes, owcrypt.ECC_CURVE_X25519)
 	if ret != owcrypt.SUCCESS {
 		return nil, errors.New("Failed to sign the transaction!")
 	}

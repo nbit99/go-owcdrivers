@@ -4,14 +4,14 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/blocktree/go-owcdrivers/addressEncoder/bech32m"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/bech32m"
 	"strings"
 
-	"github.com/blocktree/go-owcdrivers/addressEncoder/base32PolyMod"
-	"github.com/blocktree/go-owcdrivers/addressEncoder/bech32"
-	"github.com/blocktree/go-owcdrivers/addressEncoder/blake256"
-	"github.com/blocktree/go-owcdrivers/addressEncoder/eip55"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/base32PolyMod"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/bech32"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/blake256"
+	"github.com/nbit99/go-owcdrivers/addressEncoder/eip55"
+	"github.com/nbit99/go-owcrypt"
 )
 
 var (

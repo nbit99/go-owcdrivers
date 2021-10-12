@@ -3,21 +3,21 @@ package filenetTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 	"sort"
 	"time"
 )
 
 type TxStruct struct {
-	From []byte
-	Amount []byte
-	ToCount []byte
+	From      []byte
+	Amount    []byte
+	ToCount   []byte
 	TimeStamp []byte
-	To []ToStruct
+	To        []ToStruct
 }
 
 type ToStruct struct {
-	To []byte
+	To     []byte
 	Amount []byte
 }
 
@@ -39,7 +39,8 @@ func NewTxStruct(in Vin, outs Vouts) (*TxStruct, error) {
 		return nil, errors.New("Miss output!")
 	}
 
-	outCount := len(outs) ; if outCount == 0 {
+	outCount := len(outs)
+	if outCount == 0 {
 		return nil, errors.New("Miss output!")
 	}
 
@@ -110,7 +111,6 @@ type TransferDetail struct {
 
 type TransferDetails []*TransferDetail //按照To字段进行排序
 
-
 func decodeRawTransaction(emptyTrans, signature string) (*Transfer, error) {
 	var transfer Transfer
 
@@ -127,53 +127,53 @@ func decodeRawTransaction(emptyTrans, signature string) (*Transfer, error) {
 		limit = len(txBytes)
 	)
 
-	if index + 20 > limit {
+	if index+20 > limit {
 		return nil, errors.New("Invalid empty transaction hex string!")
 	}
 
-	fromAddr, err := encodeAddress(txBytes[index:index+20])
+	fromAddr, err := encodeAddress(txBytes[index : index+20])
 	if err != nil {
 		return nil, errors.New("Invalid empty transaction hex string!")
 	}
 	transfer.From = fromAddr
 	index += 20
 
-	if index + 8 > limit {
+	if index+8 > limit {
 		return nil, errors.New("Invalid empty transaction hex string!")
 	}
-	toCount := littleEndianBytesToUint64(txBytes[index:index+8])
+	toCount := littleEndianBytesToUint64(txBytes[index : index+8])
 	transfer.ToCount = toCount
 	index += 8
 
-	if index + 8 > limit {
+	if index+8 > limit {
 		return nil, errors.New("Invalid empty transaction hex string!")
 	}
-	value := littleEndianBytesToUint64(txBytes[index:index+8])
+	value := littleEndianBytesToUint64(txBytes[index : index+8])
 	transfer.Value = value
 	index += 8
 
-	if index + 8 > limit {
+	if index+8 > limit {
 		return nil, errors.New("Invalid empty transaction hex string!")
 	}
-	transfer.Timestamp = int64(littleEndianBytesToUint64(txBytes[index:index+8]))
+	transfer.Timestamp = int64(littleEndianBytesToUint64(txBytes[index : index+8]))
 	index += 8
 
 	txDetalis := make(TransferDetails, toCount)
-	for i := 0; i < int(toCount); i ++ {
-		if index + 28 > limit {
+	for i := 0; i < int(toCount); i++ {
+		if index+28 > limit {
 			return nil, errors.New("Invalid empty transaction hex string!")
 		}
-		toAddr, err := encodeAddress(txBytes[index:index+20])
+		toAddr, err := encodeAddress(txBytes[index : index+20])
 		if err != nil {
 			return nil, errors.New("Invalid empty transaction hex string!")
 		}
 
-		toAmount := littleEndianBytesToUint64(txBytes[index+20:index+28])
+		toAmount := littleEndianBytesToUint64(txBytes[index+20 : index+28])
 
 		index += 28
 
-		 txDetalis[i] = &TransferDetail{
-			To: toAddr,
+		txDetalis[i] = &TransferDetail{
+			To:    toAddr,
 			Value: toAmount,
 		}
 	}

@@ -2,28 +2,28 @@ package hypercashTransaction
 
 import (
 	"encoding/hex"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 	"github.com/pkg/errors"
 	"strings"
 )
 
 type Vin struct {
-	TxID       string
-	Vout       uint32
-	Tree       byte
-	Amount     uint64
-	LockScript string
+	TxID        string
+	Vout        uint32
+	Tree        byte
+	Amount      uint64
+	LockScript  string
 	BlockHeight uint32
-	BlockIndex uint32
+	BlockIndex  uint32
 }
 
 type Vout struct {
-	Amount uint64
+	Amount          uint64
 	PkScriptVersion uint16
-	Address string
+	Address         string
 }
 
-func CreateEmptyTransactionAndHash(ins []Vin, outs []Vout, locktime, expiry uint32)(string, []string, error) {
+func CreateEmptyTransactionAndHash(ins []Vin, outs []Vout, locktime, expiry uint32) (string, []string, error) {
 
 	if ins == nil || len(ins) == 0 || outs == nil || len(outs) == 0 {
 		return "", nil, errors.New("Check the count of input and output!")
@@ -58,7 +58,7 @@ func CreateEmptyTransactionAndHash(ins []Vin, outs []Vout, locktime, expiry uint
 	return emptyTrans, hashes, nil
 }
 
-func CreateOmniEmptyTransactionAndHash(ins []Vin, to, change  *Vout, amount uint64,propertyID uint32, locktime, expiry uint32) (string, []string, error) {
+func CreateOmniEmptyTransactionAndHash(ins []Vin, to, change *Vout, amount uint64, propertyID uint32, locktime, expiry uint32) (string, []string, error) {
 
 	if ins == nil || len(ins) == 0 {
 		return "", nil, errors.New("Check the count of input!")
@@ -116,7 +116,7 @@ func SignTransaction(hashStr string, prikey []byte) ([]byte, error) {
 		return nil, errors.New("Invalid transaction hash!")
 	}
 
-	signature,_, retCode := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, retCode := owcrypt.Signature(prikey, nil, hash, owcrypt.ECC_CURVE_SECP256K1)
 	if retCode != owcrypt.SUCCESS {
 		return nil, errors.New("Failed in signature!")
 	}
@@ -132,7 +132,7 @@ func VerifyAndCombineTransaction(emptyTrans string, sigPub []*SigPub) (bool, str
 		return false, ""
 	}
 
-	if len(transData) - 1 != len(sigPub) {
+	if len(transData)-1 != len(sigPub) {
 		return false, ""
 	}
 
@@ -163,7 +163,7 @@ func VerifyAndCombineTransaction(emptyTrans string, sigPub []*SigPub) (bool, str
 		}
 
 		witnessBytes := uint16ToLittleEndianBytes(DefaultTxVersion)
-		witnessBytes =append(witnessBytes, serilizeWitnessSign...)
+		witnessBytes = append(witnessBytes, serilizeWitnessSign...)
 		witnessBytes = append(witnessBytes, varIntToBytes(uint64(len(sigPub)))...)
 		for j := 0; j < len(sigPub); j++ {
 			if j == i {
@@ -180,7 +180,6 @@ func VerifyAndCombineTransaction(emptyTrans string, sigPub []*SigPub) (bool, str
 		hashData := uint32ToLittleEndianBytes(uint32(SigHashAll))
 		hashData = append(hashData, prefixHash...)
 		hashData = append(hashData, witnessHash...)
-
 
 		hash := owcrypt.Hash(hashData, 0, owcrypt.HASH_ALG_BLAKE256)
 
@@ -201,4 +200,3 @@ func VerifyAndCombineTransaction(emptyTrans string, sigPub []*SigPub) (bool, str
 
 	return true, hex.EncodeToString(ret)
 }
-

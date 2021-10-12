@@ -5,11 +5,11 @@ import (
 	"errors"
 	"strings"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 func CreateEmptyRawTransactionAndHash(from, pubkey string, destinationTag int64, sequence uint32, to string, amount, fee uint64, lastLedgerSequence uint32, memoType, memoData, memoFormat string) (string, string, error) {
-	tx, err := NewTxStruct(from, pubkey,sequence , to, amount, fee, "",destinationTag, lastLedgerSequence, memoType, memoData, memoFormat)
+	tx, err := NewTxStruct(from, pubkey, sequence, to, amount, fee, "", destinationTag, lastLedgerSequence, memoType, memoData, memoFormat)
 	if err != nil {
 		return "", "", err
 	}
@@ -21,7 +21,7 @@ func SignRawTransaction(hash string, prikey []byte) (string, error) {
 	if err != nil {
 		return "", errors.New("Invalid transaction hash string!")
 	}
-	signature,_, reCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
+	signature, _, reCode := owcrypt.Signature(prikey, nil, hashBytes, owcrypt.ECC_CURVE_SECP256K1)
 	if reCode != owcrypt.SUCCESS {
 		return "", errors.New("failed to sign transaction hash!")
 	}

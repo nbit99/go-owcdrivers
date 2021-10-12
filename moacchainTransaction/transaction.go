@@ -6,7 +6,7 @@ import (
 	"math/big"
 	"strings"
 
-	owcrypt "github.com/blocktree/go-owcrypt"
+	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
 func CreateEmptyRawTransactionAndHash(to string, nonce uint64, amount, gasLimit, gasPrice *big.Int, isTestNet bool) (string, string, error) {

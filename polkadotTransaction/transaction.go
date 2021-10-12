@@ -3,7 +3,7 @@ package polkadotTransaction
 import (
 	"encoding/hex"
 	"errors"
-	"github.com/blocktree/go-owcrypt"
+	"github.com/nbit99/go-owcrypt"
 )
 
 func (ts TxStruct) CreateEmptyTransactionAndMessage(transferCode string) (string, string, error) {
@@ -50,7 +50,7 @@ func VerifyAndCombineTransaction(transferCode, emptyTrans, signature string) (st
 	pubkey, _ := hex.DecodeString(ts.SenderPubkey)
 
 	sig, err := hex.DecodeString(signature)
-	if err != nil || len(sig) != 64{
+	if err != nil || len(sig) != 64 {
 		return "", false
 	}
 

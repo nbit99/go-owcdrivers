@@ -1,6 +1,6 @@
 package elastosTransaction
 
-import owcrypt "github.com/blocktree/go-owcrypt"
+import owcrypt "github.com/nbit99/go-owcrypt"
 
 type Transaction struct {
 	TxType         byte
