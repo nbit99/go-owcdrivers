@@ -107,7 +107,11 @@ func (ts TxStruct) GetSignedTransaction(transfer_code, signature string) (string
 
 	signed = append(signed, polkadotTransaction.SigningBitV4)
 
-	signed = append(signed, 0x00)
+	if transfer_code != "0600" {//kilt 不能加0
+		signed = append(signed, 0x00)
+	}
+
+	//fmt.Printf("version:%x\n", signed)
 
 	if polkadotTransaction.AccounntIDFollow {
 		signed = append(signed, 0xff)
@@ -122,17 +126,23 @@ func (ts TxStruct) GetSignedTransaction(transfer_code, signature string) (string
 
 	signed = append(signed, 0x00) // ed25519
 
+	//fmt.Printf("from:%x \n", signed)
+
 	sig, err := hex.DecodeString(signature)
 	if err != nil || len(sig) != 64 {
 		return "", nil
 	}
 	signed = append(signed, sig...)
 
+	//fmt.Printf("sign:%x \n", signed)
+
 	if ts.BlockHeight == 0 {
 		return "", errors.New("invalid block height")
 	}
 
 	signed = append(signed, polkadotTransaction.GetEra(ts.BlockHeight)...)
+
+	//fmt.Printf("height:%x\n", signed)
 
 	if ts.Nonce == 0 {
 		signed = append(signed, 0)
