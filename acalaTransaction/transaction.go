@@ -107,9 +107,9 @@ func (ts TxStruct) GetSignedTransaction(transfer_code, signature string) (string
 
 	signed = append(signed, polkadotTransaction.SigningBitV4)
 
-	if transfer_code != "0600" {//kilt 不能加0
+	//if transfer_code != "0600" {//kilt 不能加0
 		signed = append(signed, 0x00)
-	}
+	//}
 
 	//fmt.Printf("version:%x\n", signed)
 
