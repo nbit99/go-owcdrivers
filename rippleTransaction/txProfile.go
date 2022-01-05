@@ -5,6 +5,11 @@ const (
 	PAYMENT              uint16 = 0x00
 	HP_TRANSACTION_SIGN  uint32 = 0x53545800
 	TxCanonicalSignature uint32 = 0x80000000
+	// Payment flags
+	TxNoDirectRipple uint32 = 0x00010000
+	TxPartialPayment uint32 = 0x00020000
+	TxLimitQuality   uint32 = 0x00040000
+	TxCircle         uint32 = 0x00080000 // Not implemented
 )
 
 const (
@@ -15,6 +20,7 @@ const (
 	ST_ACCOUNT uint8 = 8
 	ST_OBJECT  uint8 = 14
 	ST_ARRAY   uint8 = 15
+	ST_PATHSET   uint8 = 18
 )
 
 var (
@@ -42,4 +48,10 @@ var encodings = map[string]enc{
 	"MemoFormat":         enc{ST_VL, 14},
 	"EndOfObject":        enc{ST_OBJECT, 1},
 	"EndOfArray":         enc{ST_ARRAY, 1},
+	"Paths":              enc{ST_PATHSET, 1},
+	"SendMax":            enc{ST_AMOUNT, 9},
+	//"TokenAmount":        enc{ST_OBJECT, 3},
+	//"currency":           enc{ST_VL, 1},
+	//"value":              enc{ST_VL, 1},
+	//"issuer":             enc{ST_VL, 1},
 }

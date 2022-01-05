@@ -9,6 +9,29 @@ import (
 	owcrypt "github.com/nbit99/go-owcrypt"
 )
 
+/**
+{
+  "TransactionType" : "Payment",
+  "Account" : "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn",
+  "Destination" : "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+  "Amount" : {
+     "currency" : "USD",
+     "value" : "1",
+     "issuer" : "rf1BiGeXwwQoi8Z2ueFYTEXSwuJYfV2Jpn"
+  },
+  "Fee": "12",
+  "Flags": 2147483648,
+  "Sequence": 2,
+}
+
+ */
+
+type CurrencyAmount struct {
+	Currency     string
+	Value        string
+	Issuer       string
+}
+
 type TxStruct struct {
 	TransactionType    []byte
 	Flags              []byte
@@ -22,6 +45,9 @@ type TxStruct struct {
 	Destination        []byte
 	DestinationTag     []byte
 	Memos              []byte
+	Paths              []byte
+	SendMax        	   []byte //如果SendMax交易指令中省略了该字段，则认为它等于Amount
+	//DeliverMin         []byte
 }
 
 func getTransactionTypeBytes(txType uint16) []byte {
@@ -68,6 +94,28 @@ func getAmountBytes(amount uint64) ([]byte, error) {
 	enc := getEncBytes(encodings["Amount"])
 	amountValue := newValue(true, false, amount, 0)
 	return append(enc, amountValue.Bytes()...), nil
+}
+
+func getCurrencyAmountBytes(amount *Amount) []byte {
+
+	bytes := getEncBytes(encodings["Amount"])
+
+	amountBytes := amount.Bytes()//json.Marshal(amount)
+
+	bytes = append(bytes, amountBytes...)
+
+	return bytes
+}
+
+func getSendMaxBytes(sendMax *Amount) []byte {
+
+	bytes := getEncBytes(encodings["SendMax"])
+
+	amountBytes := sendMax.Bytes()
+
+	bytes = append(bytes, amountBytes...)
+
+	return bytes
 }
 
 func getFeeBytes(fee uint64) ([]byte, error) {
@@ -134,21 +182,21 @@ func getMemosBytes(memoType, memoData, memoFormat string) []byte {
 	return nil
 }
 
-func NewTxStruct(from, pubkey string, sequence uint32, to string, amount, fee uint64, signature string, destinationTag int64, lastLedgerSequence uint32, memoType, memoData, memoFormat string) (*TxStruct, error) {
+func NewTxStruct(from, pubkey string, sequence uint32, to string, amount []byte, fee uint64, signature string, destinationTag int64, lastLedgerSequence uint32, memoType, memoData, memoFormat string, flags uint32) (*TxStruct, error) {
 	var (
 		txStruct TxStruct
 		err      error
 	)
 
 	txStruct.TransactionType = getTransactionTypeBytes(PAYMENT)
-	txStruct.Flags = getFlagsBytes(TxCanonicalSignature)
+	txStruct.Flags = getFlagsBytes(flags)
 	txStruct.Sequence = getSequenceBytes(sequence)
 	txStruct.DestinationTag = getDestinationTagBytes(destinationTag)
 	txStruct.LastLedgerSequence = getLastLedgerSequenceBytes(lastLedgerSequence)
-	txStruct.Amount, err = getAmountBytes(amount)
-	if err != nil {
-		return nil, err
-	}
+	txStruct.Amount = amount//getAmountBytes(amount)
+	//if err != nil {
+	//	return nil, err
+	//}
 	txStruct.Fee, err = getFeeBytes(fee)
 	if err != nil {
 		return nil, err
@@ -174,7 +222,28 @@ func NewTxStruct(from, pubkey string, sequence uint32, to string, amount, fee ui
 
 	txStruct.Memos = getMemosBytes(memoType, memoData, memoFormat)
 
+	//txStruct.Paths = getPathsBytes(pathSet)
+
+	//if sendMax != nil {
+	//	txStruct.SendMax = getSendMaxBytes(sendMax)
+	//}
+
 	return &txStruct, nil
+}
+
+func getPathsBytes(pathSet PathSet) []byte {
+	if len(pathSet) > 0 {
+		pathBytes := getEncBytes(encodings["Paths"])
+
+		pathSetBytes, err := pathSet.Marshal()
+
+		if err != nil {
+			return nil
+		}
+		pathBytes = append(pathBytes, pathSetBytes...)
+		return pathBytes
+	}
+	return nil
 }
 
 func (tx TxStruct) ToEmptyRawWiths() string {
@@ -186,12 +255,14 @@ func (tx TxStruct) ToEmptyRawWiths() string {
 	ret = append(ret, tx.LastLedgerSequence...)
 	ret = append(ret, tx.Amount...)
 	ret = append(ret, tx.Fee...)
+	//ret = append(ret, tx.SendMax...)
 	ret = append(ret, tx.SigningPubKey...)
 	pre := hex.EncodeToString(ret)
 	ret = []byte{}
 	ret = append(ret, tx.Account...)
 	ret = append(ret, tx.Destination...)
 	ret = append(ret, tx.Memos...)
+	//ret = append(ret, tx.Paths...)
 	last := hex.EncodeToString(ret)
 	return pre + "s" + last
 }
@@ -205,11 +276,14 @@ func (tx TxStruct) ToBytes() []byte {
 	ret = append(ret, tx.LastLedgerSequence...)
 	ret = append(ret, tx.Amount...)
 	ret = append(ret, tx.Fee...)
+	//ret = append(ret, tx.SendMax...)
 	ret = append(ret, tx.SigningPubKey...)
 	ret = append(ret, tx.TxnSignature...)
 	ret = append(ret, tx.Account...)
 	ret = append(ret, tx.Destination...)
 	ret = append(ret, tx.Memos...)
+	//ret = append(ret, tx.Paths...)
+
 	return ret
 }
 

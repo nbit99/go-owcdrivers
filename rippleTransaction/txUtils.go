@@ -1,51 +1,68 @@
 package rippleTransaction
 
 import (
-	"encoding/binary"
 	"math/big"
 )
 
-type Value struct {
-	native   bool
-	negative bool
-	num      uint64
-	offset   int64
-}
+//const (
+//	minOffset        int64  = -96
+//	maxOffset        int64  = 80
+//	minValue         uint64 = 1000000000000000
+//	maxValue         uint64 = 9999999999999999
+//	maxNative        uint64 = 9000000000000000000
+//	maxNativeNetwork uint64 = 100000000000000000
+//	notNative        uint64 = 0x8000000000000000
+//	positive         uint64 = 0x4000000000000000
+//	maxNativeSqrt    uint64 = 3000000000
+//	maxNativeDiv     uint64 = 2095475792 // MaxNative / 2^32
+//	tenTo14          uint64 = 100000000000000
+//	tenTo14m1        uint64 = tenTo14 - 1
+//	tenTo17          uint64 = tenTo14 * 1000
+//	tenTo17m1        uint64 = tenTo17 - 1
+//	xrpPrecision     uint64 = 1000000
+//)
 
-func newValue(native, negative bool, num uint64, offset int64) *Value {
-	return &Value{
-		native:   native,
-		negative: negative,
-		num:      num,
-		offset:   offset,
-	}
-}
+//type Value struct {
+//	native   bool
+//	negative bool
+//	num      uint64
+//	offset   int64
+//}
 
-func (v Value) IsNative() bool {
-	return v.native
-}
+//func newValue(native, negative bool, num uint64, offset int64) *Value {
+//	return &Value{
+//		native:   native,
+//		negative: negative,
+//		num:      num,
+//		offset:   offset,
+//	}
+//}
 
-func (v *Value) Bytes() []byte {
-	if v == nil {
-		return nil
-	}
-	var u uint64
-	if !v.negative && (v.num > 0 || v.IsNative()) {
-		u |= 1 << 62
-	}
-	if v.IsNative() {
-		u |= v.num & ((1 << 62) - 1)
-	} else {
-		u |= 1 << 63
-		u |= v.num & ((1 << 54) - 1)
-		if v.num > 0 {
-			u |= uint64(v.offset+97) << 54
-		}
-	}
-	var b [8]byte
-	binary.BigEndian.PutUint64(b[:], u)
-	return b[:]
-}
+//func (v Value) IsNative() bool {
+//	return v.native
+//}
+//
+//func (v *Value) Bytes() []byte {
+//	if v == nil {
+//		return nil
+//	}
+//	var u uint64
+//	if !v.negative && (v.num > 0 || v.IsNative()) {
+//		u |= 1 << 62
+//	}
+//	if v.IsNative() {
+//		u |= v.num & ((1 << 62) - 1)
+//	} else {
+//		u |= 1 << 63
+//		u |= v.num & ((1 << 54) - 1)
+//		if v.num > 0 {
+//			u |= uint64(v.offset+97) << 54
+//		}
+//	}
+//	var b [8]byte
+//	binary.BigEndian.PutUint64(b[:], u)
+//	return b[:]
+//}
 
 func getSignatureBytes(sp []byte) []byte {
 	r := sp[:32]
@@ -116,3 +133,62 @@ func serilizeS(sig []byte) []byte {
 func memoToBytes(memo string) []byte {
 	return append([]byte{byte(len(memo))}, []byte(memo)...)
 }
+
+const hextable = "0123456789ABCDEF"
+//faster than fmt and need upper case!
+func b2h(h []byte) []byte {
+	b := make([]byte, len(h)*2)
+	for i, v := range h {
+		b[i*2] = hextable[v>>4]
+		b[i*2+1] = hextable[v&0x0f]
+	}
+	return b
+}
+
+
+func min(a, b uint32) uint32 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max(a, b uint32) uint32 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func min64(a, b uint64) uint64 {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+func max64(a, b uint64) uint64 {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+func abs(a int64) uint64 {
+	if a < 0 {
+		return uint64(-a)
+	}
+	return uint64(a)
+}
+
+//func hashValues(values []interface{}) (Hash256, error) {
+//	var hash Hash256
+//	hasher := sha512.New()
+//	for _, v := range values {
+//		if err := write(hasher, v); err != nil {
+//			return hash, err
+//		}
+//	}
+//	copy(hash[:], hasher.Sum(nil))
+//	return hash, nil
+//}
