@@ -85,6 +85,11 @@ func getI(data, key []byte, serializes, typeChoose uint32) []byte {
 			hm[0]--
 		}
 	}
+	if typeChoose == owcrypt.ECC_CURVE_PASTA {
+		hm[0] &= 0x00
+		hm[1] &= 0x00
+		hm[2] &= 0x00
+	}
 
 	return hm
 }
@@ -287,6 +292,9 @@ func InitRootKeyFromSeed(seed []byte, curveType uint32) (*ExtendedKey, error) {
 		for i[0] >= curveoeder_bls12_381[0] {
 			i[0]--
 		}
+	}
+	if curveType == owcrypt.ECC_CURVE_PASTA {
+		i[0] &= 0x03
 	}
 	rootParentFP := [4]byte{0, 0, 0, 0}
 	return NewExtendedKey(i[:32], i[32:], rootParentFP[:], 0, 0, true, curveType), nil
