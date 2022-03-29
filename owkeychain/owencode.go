@@ -68,7 +68,8 @@ func (k *ExtendedKey) OWEncode() string {
 	data = append(data[:], k.parentFP...)
 	data = append(data[:], uint32ToBytes(k.serializes)...)
 	data = append(data[:], k.chainCode...)
-	if k.curveType == owcrypt.ECC_CURVE_X25519 || k.curveType == owcrypt.ECC_CURVE_ED25519 || k.curveType == owcrypt.ECC_CURVE_CURVE25519_SHA256 || k.isPrivate == true {
+	if k.curveType == owcrypt.ECC_CURVE_X25519 || k.curveType == owcrypt.ECC_CURVE_ED25519 || k.curveType == owcrypt.ECC_CURVE_CURVE25519_SHA256 ||
+		k.curveType == owcrypt.ECC_CURVE_ED25519_NEM || k.isPrivate == true {
 		data = append(data[:], []byte{0}...)
 	}
 	data = append(data[:], k.key...)
@@ -112,7 +113,8 @@ func OWDecode(data string) (*ExtendedKey, error) {
 	parentFP := decodeBytes[5:9]
 	serializes := bytesToUInt32(decodeBytes[9:13])
 	chainCode := decodeBytes[13:45]
-	if curveType == owcrypt.ECC_CURVE_ED25519 || curveType == owcrypt.ECC_CURVE_X25519 || curveType == owcrypt.ECC_CURVE_CURVE25519_SHA256 || privateFlag {
+	if curveType == owcrypt.ECC_CURVE_ED25519 || curveType == owcrypt.ECC_CURVE_X25519 || curveType == owcrypt.ECC_CURVE_CURVE25519_SHA256 ||
+		curveType == owcrypt.ECC_CURVE_ED25519_NEM || privateFlag {
 		if decodeBytes[45] != 0 {
 			return nil, ErrInvalidAddress
 		}
