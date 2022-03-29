@@ -50,7 +50,7 @@ func getCurveOrder(typeChoose uint32) []byte {
 	case owcrypt.ECC_CURVE_SM2_STANDARD:
 		copy(ret, curveorder_sm2_std)
 		break
-	case owcrypt.ECC_CURVE_ED25519, owcrypt.ECC_CURVE_ED25519_NORMAL, owcrypt.ECC_CURVE_X25519, owcrypt.ECC_CURVE_CURVE25519_SHA256:
+	case owcrypt.ECC_CURVE_ED25519, owcrypt.ECC_CURVE_ED25519_NORMAL, owcrypt.ECC_CURVE_X25519, owcrypt.ECC_CURVE_CURVE25519_SHA256, owcrypt.ECC_CURVE_ED25519_NEM:
 		copy(ret, curveorder_ed25519)
 		break
 	case owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_NUL, owcrypt.ECC_CURVE_BLS12381_G2_XMD_SHA_256_SSWU_RO_AUG:
