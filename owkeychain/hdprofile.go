@@ -41,7 +41,7 @@ var (
 func getCurveOrder(typeChoose uint32) []byte {
 	ret := make([]byte, 32)
 	switch typeChoose {
-	case owcrypt.ECC_CURVE_SECP256K1:
+	case owcrypt.ECC_CURVE_SECP256K1, owcrypt.ECC_CURVE_ZIL_SECP256K1:
 		copy(ret, curveorder_secp256k1)
 		break
 	case owcrypt.ECC_CURVE_SECP256R1:
